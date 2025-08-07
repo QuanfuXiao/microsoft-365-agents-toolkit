@@ -62,7 +62,7 @@ jobs:
           echo "status: $status"
           echo "run_attempt: $run_attempt"
 
-          if [[ "$status" == "failure" && "$run_attempt" -lt ${{ github.event.inputs.max_attempts }} ]]; then
+          if [[ "$status" == "failure" && "$run_attempt" -lt 100 ]]; then
             echo "[start] rerun failed jobs ${{ github.event.inputs.run_id }} $status $run_attempt..."
             curl \
               -X POST \
