@@ -25,7 +25,7 @@ const app = new App({
 });
 
 // Handle incoming messages
-app.on('message', async ({ send, stream, activity, log }) => {
+app.on('message', async ({ send, stream, activity }) => {
   //Get conversation history
   const conversationKey = `${activity.conversation.id}/${activity.from.id}`;
   const messages = storage.get(conversationKey) || [];
@@ -67,14 +67,13 @@ app.on('message', async ({ send, stream, activity, log }) => {
     }
     storage.set(conversationKey, messages);
   } catch (error) {
-    log.error('Error processing message:', error);
+    console.error(error);
     await send("The agent encountered an error or bug.");
     await send("To continue to run this agent, please fix the agent source code.");
   }
-
 });
 
-app.on('message.submit.feedback', async ({ activity, log }) => {
+app.on('message.submit.feedback', async ({ activity }) => {
   //add custom feedback process logic here
   console.log("Your feedback is " + JSON.stringify(activity.value));
   return {} as any;
