@@ -26,7 +26,7 @@
         "url": "https://github.com"
     },
     "dependencies": {
-       "@microsoft/teams.apps": "preview",
+        "@microsoft/teams.apps": "preview",
         "@microsoft/teams.ai": "preview",
         "@microsoft/teams.openai": "preview",
         "@microsoft/teams.common": "preview",
