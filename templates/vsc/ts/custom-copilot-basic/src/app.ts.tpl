@@ -5,7 +5,7 @@ import { OpenAIChatModel } from "@microsoft/teams.openai";
 import { MessageActivity } from '@microsoft/teams.api';
 import * as fs from 'fs';
 import * as path from 'path';
-import config from "../config";
+import config from "./config";
 
 // Create storage for conversation history
 const storage = new LocalStorage();
