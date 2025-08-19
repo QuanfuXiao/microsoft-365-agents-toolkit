@@ -7,9 +7,8 @@ export class GenericCommandHandler {
     console.log(`App received message: ${activity.text}`);
 
     let response = "";
-    const text = activity.text || "";
 
-    switch (text) {
+    switch (activity.text) {
       case "hi":
         response =
           "Hi there! I'm your Command Bot, here to assist you with your tasks. Type 'help' for a list of available commands.";
