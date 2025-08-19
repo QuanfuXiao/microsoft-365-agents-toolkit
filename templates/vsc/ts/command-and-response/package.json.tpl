@@ -26,8 +26,7 @@
         "adaptive-expressions": "^4.23.1",
         "adaptivecards-templating": "^2.3.1",
         "@microsoft/teams.apps": "preview",
-        "@microsoft/teams.common": "preview",
-        "fs-extra": "^11.3.1"
+        "@microsoft/teams.common": "preview"
     },
     "devDependencies": {
         "@types/express": "^5.0.0",

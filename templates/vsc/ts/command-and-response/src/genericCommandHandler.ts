@@ -7,7 +7,7 @@ export class GenericCommandHandler {
     console.log(`App received message: ${activity.text}`);
 
     let response = "";
-    const text = activity.text?.toLowerCase() || "";
+    const text = activity.text || "";
 
     switch (text) {
       case "hi":

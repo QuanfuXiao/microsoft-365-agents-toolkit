@@ -3,5 +3,5 @@ import app from "./app";
 // Start the application
 (async () => {
   await app.start(process.env.PORT || process.env.port || 3978);
-  console.log(`\nAgent started, app listening to`, process.env.PORT || process.env.port || 3978);
+  console.log(`\nBot started, app listening to`, process.env.PORT || process.env.port || 3978);
 })();
