@@ -5,7 +5,7 @@ const { OpenAIChatModel } = require("@microsoft/teams.openai");
 const { MessageActivity } = require('@microsoft/teams.api');
 const fs = require('fs');
 const path = require('path');
-const config = require("./config");
+const config = require("../config");
 
 // Create storage for conversation history
 const storage = new LocalStorage();
