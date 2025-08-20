@@ -30,14 +30,5 @@
       },
       "required": ["title"]
     }
-  },
-  "listTasks": {
-    "name": "listTasks",
-    "description": "List all current tasks",
-    "parameters": {
-      "type": "object",
-      "properties": {},
-      "required": []
-    }
   }
 }

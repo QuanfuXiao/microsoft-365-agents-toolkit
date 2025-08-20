@@ -40,11 +40,12 @@ app.on('message', async ({ send, activity }) => {
   try {
     const conversationId = activity.conversation.id;
     const functionDefs = loadFunctionDefinitions();
+    const currentTasks = taskStorage.get(conversationId);
     
     // Create a new ChatPrompt with conversation-specific functions
     const conversationPrompt = new ChatPrompt(
       {
-        instructions: intructions,
+        instructions: `${intructions}\ncurrent tasks: ${JSON.stringify(currentTasks)}`,
         {{#useOpenAI}}
         model: new OpenAIChatModel({
           model: config.openAIModelName,

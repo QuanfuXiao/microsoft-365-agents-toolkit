@@ -57,5 +57,23 @@ export const deleteTaskHandler = async (parameters: { title: string }, conversat
   }
 };
 
+export const listTasksHandler = async (conversationId: string) => {
+  console.log(`Listing all tasks for conversation ${conversationId}`);
+
+  const tasks = getConversationTasks(conversationId);
+  const taskList = Object.values(tasks);
+
+  if (taskList.length === 0) {
+    return "No tasks found.";
+  }
+
+  let response = `Current Tasks (${taskList.length}):\n\n`;
+  taskList.forEach((task, index) => {
+    response += `${task.title}\n   Description: ${task.description}\n\n`;
+  });
+
+  return response;
+};
+
 // Export task storage utilities for reset functionality
 export { taskStorage };
