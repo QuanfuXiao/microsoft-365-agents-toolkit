@@ -1,7 +1,7 @@
 const config = {
   MicrosoftAppId: process.env.CLIENT_ID,
   MicrosoftAppType: process.env.BOT_TYPE,
-  MicrosoftAppTenantId: process.env.BOT_TENANT_ID,
+  MicrosoftAppTenantId: process.env.TENANT_ID,
   MicrosoftAppPassword: process.env.CLIENT_SECRET,
   {{#useOpenAI}}
   openAIKey: process.env.OPENAI_API_KEY,

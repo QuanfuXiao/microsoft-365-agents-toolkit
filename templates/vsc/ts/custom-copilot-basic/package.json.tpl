@@ -33,8 +33,7 @@
         "@microsoft/teams.dev": "preview"
     },
     "devDependencies": {
-        "@types/express": "^5.0.0",
-        "@types/node": "^18.0.0",
+        "@types/node": "^20.0.0",
         "env-cmd": "^10.1.0",
         "ts-node": "^10.4.0",
         "typescript": "~5.8.3",
