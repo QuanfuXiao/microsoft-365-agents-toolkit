@@ -26,7 +26,6 @@
         "url": "https://github.com"
     },
     "dependencies": {
-        "@azure/search-documents": "^12.0.0",
         "@microsoft/teams.apps": "preview",
         "@microsoft/teams.ai": "preview",
         "@microsoft/teams.openai": "preview",

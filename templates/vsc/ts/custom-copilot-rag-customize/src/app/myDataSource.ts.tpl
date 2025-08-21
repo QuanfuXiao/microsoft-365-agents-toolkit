@@ -17,10 +17,6 @@ export interface RenderedContext {
     sources: string[];
 }
 
-/**
- * A standalone data source that searches through local files and provides context for prompts.
- * This version works independently of Teams AI v1 dependencies.
- */
 export class MyDataSource {
     /**
      * Name of the data source.
