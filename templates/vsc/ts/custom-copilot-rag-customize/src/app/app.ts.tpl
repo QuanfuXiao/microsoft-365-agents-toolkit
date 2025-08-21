@@ -1,7 +1,6 @@
 import { App } from "@microsoft/teams.apps";
 import { ChatPrompt } from "@microsoft/teams.ai";
 import { LocalStorage } from "@microsoft/teams.common";
-import { DevtoolsPlugin } from "@microsoft/teams.dev";
 import { OpenAIChatModel } from "@microsoft/teams.openai";
 import { MessageActivity } from '@microsoft/teams.api';
 import * as fs from 'fs';
@@ -31,7 +30,7 @@ const app = new App({
 });
 
 // Handle incoming messages
-app.on('message', async ({ send, stream, activity }) => {
+app.on('message', async ({ send, activity }) => {
   //Get conversation history
   const conversationKey = `${activity.conversation.id}/${activity.from.id}`;
   const messages = storage.get(conversationKey) || [];
@@ -68,8 +67,7 @@ app.on('message', async ({ send, stream, activity }) => {
     const response = await prompt.send(activity.text);
     
     // Create response with AI generated indicator and add citations if we used context
-    let responseContent = response.content;
-    let result: any = null;
+    let result = null;
     
     try {
       result = JSON.parse(response.content);

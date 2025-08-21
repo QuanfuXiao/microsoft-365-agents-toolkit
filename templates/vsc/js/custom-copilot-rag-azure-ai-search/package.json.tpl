@@ -6,7 +6,7 @@
     },
     "description": "Microsoft 365 Agents Toolkit RAG Bot Sample with Azure AI Search and Teams AI Library",
     "engines": {
-        "node": "18 || 20 || 22"
+        "node": "20 || 22"
     },
     "author": "Microsoft",
     "license": "MIT",
