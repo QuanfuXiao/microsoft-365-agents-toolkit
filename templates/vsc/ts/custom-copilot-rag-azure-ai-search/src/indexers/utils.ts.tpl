@@ -112,22 +112,22 @@ export async function createIndexIfNotExists(client: SearchIndexClient, name: st
 export async function getEmbeddingVector(text: string): Promise<number[]> {
     {{#useOpenAI}}
     const client = new OpenAI({
-        apiKey: this.options.azureOpenAIApiKey
+        apiKey: process.env.SECRET_OPENAI_API_KEY!,
     });
     const result = await client.embeddings.create({
         input: text,
-        model: this.options.openAIEmbeddingModelName,
+        model: config.openAIEmbeddingModelName
     });
     {{/useOpenAI}}
     {{#useAzureOpenAI}}
     const client = new AzureOpenAI({
-        apiKey: this.options.azureOpenAIApiKey,
-        endpoint: this.options.azureOpenAIEndpoint,
+        apiKey: process.env.AZURE_OPENAI_API_KEY!,
+        endpoint: process.env.AZURE_OPENAI_ENDPOINT!,
         apiVersion: "2024-02-01",
     });
     const result = await client.embeddings.create({
         input: text,
-        model: this.options.azureOpenAIEmbeddingDeploymentName,
+        model: process.env.AZURE_OPENAI_EMBEDDING_DEPLOYMENT_NAME!,
     });
     {{/useAzureOpenAI}}
 

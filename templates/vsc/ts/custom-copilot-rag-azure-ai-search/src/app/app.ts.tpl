@@ -7,7 +7,7 @@ import { ManagedIdentityCredential } from '@azure/identity';
 import * as fs from 'fs';
 import * as path from 'path';
 import config from "../config";
-import { AzureAISearchDataSource } from "./myDataSource";
+import { AzureAISearchDataSource } from "./azureAISearchDataSource";
 
 // Create storage for conversation history
 const storage = new LocalStorage();
@@ -25,13 +25,13 @@ const dataSource = new AzureAISearchDataSource({
     {{#useAzureOpenAI}}
     azureOpenAIApiKey: config.azureOpenAIKey!,
     azureOpenAIEndpoint: config.azureOpenAIEndpoint!,
-    azureOpenAIEmbeddingDeploymentName: config.azureOpenAIDeploymentName!
+    azureOpenAIEmbeddingDeploymentName: config.azureOpenAIEmbeddingDeploymentName!
     {{/useAzureOpenAI}}
 });
 
 // Load instructions from file on initialization
 function loadInstructions(): string {
-  const instructionPath = path.join(__dirname, 'instruction.txt');
+  const instructionPath = path.join(__dirname, 'instructions.txt');
   return fs.readFileSync(instructionPath, 'utf-8').trim();
 }
 

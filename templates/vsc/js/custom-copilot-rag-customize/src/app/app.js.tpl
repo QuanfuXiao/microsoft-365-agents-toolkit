@@ -18,7 +18,7 @@ dataSource.init();
 
 // Load instructions from file on initialization
 function loadInstructions() {
-  const instructionPath = path.join(__dirname, 'instruction.txt');
+  const instructionPath = path.join(__dirname, 'instructions.txt');
   return fs.readFileSync(instructionPath, 'utf-8').trim();
 }
 
