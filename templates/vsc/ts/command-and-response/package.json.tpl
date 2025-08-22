@@ -23,6 +23,7 @@
         "url": "https://github.com"
     },
     "dependencies": {
+        "@azure/identity": "^4.11.1",
         "adaptive-expressions": "^4.23.1",
         "adaptivecards-templating": "^2.3.1",
         "@microsoft/teams.apps": "preview",

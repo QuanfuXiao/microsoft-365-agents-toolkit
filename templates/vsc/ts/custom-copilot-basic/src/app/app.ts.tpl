@@ -2,7 +2,8 @@ import { App } from "@microsoft/teams.apps";
 import { ChatPrompt } from "@microsoft/teams.ai";
 import { LocalStorage } from "@microsoft/teams.common";
 import { OpenAIChatModel } from "@microsoft/teams.openai";
-import { MessageActivity } from '@microsoft/teams.api';
+import { MessageActivity, TokenCredentials } from '@microsoft/teams.api';
+import { ManagedIdentityCredential } from '@azure/identity';
 import * as fs from 'fs';
 import * as path from 'path';
 import config from "../config";
@@ -19,8 +20,31 @@ function loadInstructions(): string {
 // Load instructions once at startup
 const instructions = loadInstructions();
 
+const createTokenFactory = () => {
+  return async (scope: string | string[], tenantId?: string): Promise<string> => {
+    const managedIdentityCredential = new ManagedIdentityCredential({
+        clientId: process.env.CLIENT_ID
+      });
+    const scopes = Array.isArray(scope) ? scope : [scope];
+    const tokenResponse = await managedIdentityCredential.getToken(scopes, {
+      tenantId: tenantId
+    });
+   
+    return tokenResponse.token;
+  };
+};
+
+// Configure authentication using TokenCredentials
+const tokenCredentials: TokenCredentials = {
+  clientId: process.env.CLIENT_ID || '',
+  token: createTokenFactory()
+};
+
+const credentialOptions = config.MicrosoftAppType === "UserAssignedMsi" ? { ...tokenCredentials } : undefined;
+
 // Create the app with storage
 const app = new App({
+  ...credentialOptions,
   storage
 });
 

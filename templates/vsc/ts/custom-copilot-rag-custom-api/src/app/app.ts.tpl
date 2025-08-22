@@ -1,6 +1,8 @@
 import { MemoryStorage, MessageFactory, TurnContext } from "botbuilder";
 import * as path from "path";
 import config from "../config";
+import { TokenCredentials } from '@microsoft/teams.api';
+import { ManagedIdentityCredential } from '@azure/identity';
 
 // See https://aka.ms/teams-ai-library to learn more about the Teams AI library.
 import { Application, ActionPlanner, OpenAIModel, PromptManager } from "@microsoft/teams-ai";

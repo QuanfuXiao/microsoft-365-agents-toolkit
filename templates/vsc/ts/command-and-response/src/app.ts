@@ -1,8 +1,35 @@
 import { App } from "@microsoft/teams.apps";
 import { HelloWorldCommandHandler } from "./helloworldCommandHandler";
 import { GenericCommandHandler } from "./genericCommandHandler";
+import { TokenCredentials } from "@microsoft/teams.api";
+import { ManagedIdentityCredential } from "@azure/identity";
+import config from "./internal/config";
 
-export const app = new App({});
+const createTokenFactory = () => {
+  return async (scope: string | string[], tenantId?: string): Promise<string> => {
+    const managedIdentityCredential = new ManagedIdentityCredential({
+      clientId: process.env.CLIENT_ID,
+    });
+    const scopes = Array.isArray(scope) ? scope : [scope];
+    const tokenResponse = await managedIdentityCredential.getToken(scopes, {
+      tenantId: tenantId,
+    });
+
+    return tokenResponse.token;
+  };
+};
+
+// Configure authentication using TokenCredentials
+const tokenCredentials: TokenCredentials = {
+  clientId: process.env.CLIENT_ID || "",
+  token: createTokenFactory(),
+};
+
+const credentialOptions =
+  config.MicrosoftAppType === "UserAssignedMsi" ? { ...tokenCredentials } : undefined;
+export const app = new App({
+  ...credentialOptions,
+});
 
 // Initialize command handlers
 const helloWorldHandler = new HelloWorldCommandHandler();
