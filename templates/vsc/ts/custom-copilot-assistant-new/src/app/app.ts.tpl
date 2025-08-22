@@ -2,7 +2,6 @@ import { App } from '@microsoft/teams.apps';
 import { ChatPrompt } from '@microsoft/teams.ai';
 import { OpenAIChatModel} from '@microsoft/teams.openai';
 import config from '../config';
-import { DevtoolsPlugin } from '@microsoft/teams.dev';
 import { MessageActivity, TokenCredentials } from '@microsoft/teams.api';
 import { ManagedIdentityCredential } from '@azure/identity';
 import * as fs from 'fs';
@@ -46,7 +45,7 @@ const credentialOptions = config.MicrosoftAppType === "UserAssignedMsi" ? { ...t
 // Create the main App instance
 const app = new App({...credentialOptions});
 
-const intructions = getAIInstructions();
+const instructions = getAIInstructions();
 
 // Handle messages with AI and task management
 app.on('message', async ({ send, activity }) => {
@@ -68,7 +67,7 @@ app.on('message', async ({ send, activity }) => {
     // Create a new ChatPrompt with conversation-specific functions
     const conversationPrompt = new ChatPrompt(
       {
-        instructions: `${intructions}\ncurrent tasks: ${JSON.stringify(currentTasks)}`,
+        instructions: `${instructions}\ncurrent tasks: ${JSON.stringify(currentTasks)}`,
         {{#useOpenAI}}
         model: new OpenAIChatModel({
           model: config.openAIModelName,
@@ -111,6 +110,18 @@ app.on('message', async ({ send, activity }) => {
     await send('Sorry, I encountered an error processing your request.');
   }
 });
+
+app.on("conversationUpdate", async ({ send, activity }) => {
+  const welcomeText = "How can I help you today?";
+  
+  if (activity.membersAdded && activity.membersAdded.length > 0) {
+    for (const member of activity.membersAdded) {
+      if (member.id !== activity.recipient?.id) {
+        await send(welcomeText);
+      }
+    }
+  }
+})
 
 app.on('message.submit.feedback', async ({ activity }) => {
   //add custom feedback process logic here

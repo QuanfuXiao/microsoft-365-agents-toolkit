@@ -30,8 +30,7 @@
         "@microsoft/teams.apps": "preview",
         "@microsoft/teams.ai": "preview",
         "@microsoft/teams.openai": "preview",
-        "@microsoft/teams.common": "preview",
-        "@microsoft/teams.dev": "preview"
+        "@microsoft/teams.common": "preview"
     },
     "devDependencies": {
         "@types/node": "^20.0.0",

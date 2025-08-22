@@ -27,9 +27,10 @@
     },
     "dependencies": {
         "@azure/identity": "^4.11.1",
-        "@microsoft/teams-ai": "^1.1.0",
-        "botbuilder": "^4.23.1",
-        "express": "^5.0.1",
+        "@microsoft/teams.apps": "preview",
+        "@microsoft/teams.ai": "preview",
+        "@microsoft/teams.openai": "preview",
+        "@microsoft/teams.common": "preview",
         "fs-extra": "^11.2.0",
         "js-yaml": "^4.1.0",
         "adaptivecards-templating": "^2.3.1",
