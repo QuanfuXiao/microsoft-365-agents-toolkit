@@ -1,8 +1,8 @@
+const { ManagedIdentityCredential } = require('@azure/identity');
 const { App } = require('@microsoft/teams.apps');
 const { ChatPrompt } = require('@microsoft/teams.ai');
 const { OpenAIChatModel } = require('@microsoft/teams.openai');
 const config = require('../config');
-const { DevtoolsPlugin } = require('@microsoft/teams.dev');
 const { MessageActivity } = require('@microsoft/teams.api');
 const fs = require('fs');
 const path = require('path');
@@ -20,8 +20,30 @@ const getAIInstructions = () => {
   return fs.readFileSync(instructionsPath, 'utf8');
 };
 
+const createTokenFactory = () => {
+  return async (scope, tenantId) => {
+    const managedIdentityCredential = new ManagedIdentityCredential({
+        clientId: process.env.CLIENT_ID
+      });
+    const scopes = Array.isArray(scope) ? scope : [scope];
+    const tokenResponse = await managedIdentityCredential.getToken(scopes, {
+      tenantId: tenantId
+    });
+   
+    return tokenResponse.token;
+  };
+};
+
+// Configure authentication using TokenCredentials
+const tokenCredentials = {
+  clientId: process.env.CLIENT_ID || '',
+  token: createTokenFactory()
+};
+
+const credentialOptions = config.MicrosoftAppType === "UserAssignedMsi" ? { ...tokenCredentials } : undefined;
+
 // Create the main App instance
-const app = new App();
+const app = new App({...credentialOptions});
 
 const instructions = getAIInstructions();
 

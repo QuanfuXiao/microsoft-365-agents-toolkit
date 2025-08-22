@@ -1,3 +1,4 @@
+const { ManagedIdentityCredential } = require("@azure/identity");
 const { MemoryStorage, MessageFactory } = require("botbuilder");
 const path = require("path");
 const config = require("../config");

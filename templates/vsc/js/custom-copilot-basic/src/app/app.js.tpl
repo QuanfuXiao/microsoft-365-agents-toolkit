@@ -1,3 +1,4 @@
+const { ManagedIdentityCredential } = require("@azure/identity");
 const { App } = require("@microsoft/teams.apps");
 const { ChatPrompt } = require("@microsoft/teams.ai");
 const { LocalStorage } = require("@microsoft/teams.common");
@@ -19,8 +20,31 @@ function loadInstructions() {
 // Load instructions once at startup
 const instructions = loadInstructions();
 
+const createTokenFactory = () => {
+  return async (scope, tenantId) => {
+    const managedIdentityCredential = new ManagedIdentityCredential({
+        clientId: process.env.CLIENT_ID
+      });
+    const scopes = Array.isArray(scope) ? scope : [scope];
+    const tokenResponse = await managedIdentityCredential.getToken(scopes, {
+      tenantId: tenantId
+    });
+   
+    return tokenResponse.token;
+  };
+};
+
+// Configure authentication using TokenCredentials
+const tokenCredentials = {
+  clientId: process.env.CLIENT_ID || '',
+  token: createTokenFactory()
+};
+
+const credentialOptions = config.MicrosoftAppType === "UserAssignedMsi" ? { ...tokenCredentials } : undefined;
+
 // Create the app with storage
 const app = new App({
+  ...credentialOptions,
   storage
 });
 

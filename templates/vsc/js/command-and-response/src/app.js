@@ -1,8 +1,32 @@
+const { ManagedIdentityCredential } = require("@azure/identity");
 const { App } = require("@microsoft/teams.apps");
 const { HelloWorldCommandHandler } = require("./helloworldCommandHandler");
 const { GenericCommandHandler } = require("./genericCommandHandler");
 
-const app = new App({});
+const createTokenFactory = () => {
+  return async (scope, tenantId) => {
+    const managedIdentityCredential = new ManagedIdentityCredential({
+      clientId: process.env.CLIENT_ID,
+    });
+    const scopes = Array.isArray(scope) ? scope : [scope];
+    const tokenResponse = await managedIdentityCredential.getToken(scopes, {
+      tenantId: tenantId,
+    });
+
+    return tokenResponse.token;
+  };
+};
+
+// Configure authentication using TokenCredentials
+const tokenCredentials = {
+  clientId: process.env.CLIENT_ID || "",
+  token: createTokenFactory(),
+};
+
+const credentialOptions =
+  config.MicrosoftAppType === "UserAssignedMsi" ? { ...tokenCredentials } : undefined;
+
+const app = new App({ ...credentialOptions });
 
 // Initialize command handlers
 const helloWorldHandler = new HelloWorldCommandHandler();
